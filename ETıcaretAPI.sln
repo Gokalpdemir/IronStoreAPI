@@ -5,19 +5,19 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{15CA7005-4231-47B8-9A6E-997693A9A3D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETıcaretAPI.Domain", "Core\ETıcaretAPI.Domain\ETıcaretAPI.Domain.csproj", "{CC464834-E3E7-4F9B-A353-517959C31B7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETıcaretAPI.Domain", "Core\ETıcaretAPI.Domain\ETıcaretAPI.Domain.csproj", "{CC464834-E3E7-4F9B-A353-517959C31B7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETıcaretAPI.Application", "Core\ETıcaretAPI.Application\ETıcaretAPI.Application.csproj", "{1F1C9FF4-E531-47D9-8DF8-8E41620A70FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETıcaretAPI.Application", "Core\ETıcaretAPI.Application\ETıcaretAPI.Application.csproj", "{1F1C9FF4-E531-47D9-8DF8-8E41620A70FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4409E327-6EFD-489C-89F6-B7A70FDEAE57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETıcaretAPI.Infrastructure", "Infrastructure\ETıcaretAPI.Infrastructure\ETıcaretAPI.Infrastructure.csproj", "{B64E667B-C057-4533-BA37-2E8CAD0F2EAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETıcaretAPI.Infrastructure", "Infrastructure\ETıcaretAPI.Infrastructure\ETıcaretAPI.Infrastructure.csproj", "{B64E667B-C057-4533-BA37-2E8CAD0F2EAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETıcaretAPI.Persistence", "Infrastructure\ETıcaretAPI.Persistence\ETıcaretAPI.Persistence.csproj", "{0F0AE007-7B64-4E38-BFE2-36CA913EAA69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETıcaretAPI.Persistence", "Infrastructure\ETıcaretAPI.Persistence\ETıcaretAPI.Persistence.csproj", "{0F0AE007-7B64-4E38-BFE2-36CA913EAA69}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{18243550-563C-4EA8-ABAB-F5F2872D1399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETıcaretAPI.API", "Presentation\ETıcaretAPI.API\ETıcaretAPI.API.csproj", "{8824A4B9-5A86-46EF-9DF6-D29ADCD437A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETıcaretAPI.API", "Presentation\ETıcaretAPI.API\ETıcaretAPI.API.csproj", "{8824A4B9-5A86-46EF-9DF6-D29ADCD437A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

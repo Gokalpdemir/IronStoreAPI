@@ -21,7 +21,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\ETıcaretAPI.Application\ETıcaretAPI.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ETıcaretAPI.Infrastructure\ETıcaretAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ETıcaretAPI.Persistence\ETıcaretAPI.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\resource\product-images\" />
   </ItemGroup>
 
 </Project>

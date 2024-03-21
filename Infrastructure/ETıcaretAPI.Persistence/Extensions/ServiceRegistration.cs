@@ -28,7 +28,8 @@ namespace ETıcaretAPI.Persistence.Extensions
 
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
-        }
+            
+        } 
 
     }
 }
