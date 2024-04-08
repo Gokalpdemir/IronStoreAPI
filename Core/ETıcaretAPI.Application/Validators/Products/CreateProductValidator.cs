@@ -1,4 +1,5 @@
-﻿using ETıcaretAPI.Application.ViewModels.Products;
+﻿using ETıcaretAPI.Application.Features.Products.Commands.Create;
+
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ETıcaretAPI.Application.Validators.Products
 {
-    public class CreateProductValidator : AbstractValidator<VM_Create_Product>
+    public class CreateProductValidator : AbstractValidator<CreateProductCommandRequest>
     {
         public CreateProductValidator()
         {

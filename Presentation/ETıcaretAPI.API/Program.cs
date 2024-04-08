@@ -2,6 +2,7 @@ using ETıcaretAPI.Application.Extension;
 using ETıcaretAPI.Application.Validators.Products;
 using ETıcaretAPI.Infrastructure.Extension;
 using ETıcaretAPI.Infrastructure.Filters;
+using ETıcaretAPI.Infrastructure.Services.Storage.Local;
 using ETıcaretAPI.Persistence.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -17,6 +18,7 @@ namespace ETıcaretAPI.API
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddAplicationServices();
             builder.Services.AddInfrastructureServices();
+            builder.Services.AddStorage<LocalStorage>();
             builder.Services.AddCors(options=>options.AddDefaultPolicy(policy=>policy.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
             builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
             builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();

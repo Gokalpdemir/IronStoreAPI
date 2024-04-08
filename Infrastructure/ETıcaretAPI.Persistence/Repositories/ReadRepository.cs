@@ -51,6 +51,7 @@ namespace ETıcaretAPI.Persistence.Repositories
             if (!tracking)
                 query = query.AsNoTracking();
             return await query.FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
         }
     }
 }
