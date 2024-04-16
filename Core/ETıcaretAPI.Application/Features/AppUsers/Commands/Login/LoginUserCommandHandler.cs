@@ -1,4 +1,6 @@
-﻿using ETıcaretAPI.Application.Exceptions;
+﻿using ETıcaretAPI.Application.Abstractions.Token;
+using ETıcaretAPI.Application.Dtos;
+using ETıcaretAPI.Application.Exceptions;
 using ETıcaretAPI.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -10,10 +12,12 @@ namespace ETıcaretAPI.Application.Features.AppUsers.Commands.Login
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
-        public LoginUserCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly ITokenHandler _tokenHandler;
+        public LoginUserCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenHandler = tokenHandler;
         }
         public async Task<LoginUserCommandResponse> Handle(LoginUserCommandRequest request, CancellationToken cancellationToken)
         {
@@ -28,11 +32,18 @@ namespace ETıcaretAPI.Application.Features.AppUsers.Commands.Login
             }
 
             SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
             if (result.Succeeded) //authentication başarılı Authorize işlemi yap.
             {
-                
+              Token token=  _tokenHandler.CreateAccessToken(5);
+                return new LoginUserCommandResponse()
+                {
+                    Token = token,
+                };
             }
-            return new LoginUserCommandResponse();
+           
+            throw new AuthenticationErrorException();
+            
         }
     }
 }

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ETıcaretAPI.Application.Abstractions.Token;
+using ETıcaretAPI.Infrastructure.Services.Token;
 
 namespace ETıcaretAPI.Infrastructure.Extension
 {
@@ -17,6 +19,7 @@ namespace ETıcaretAPI.Infrastructure.Extension
         public static void AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<IStorageService, StorageService>();
+            services.AddScoped<ITokenHandler, TokenHandler>();
         }
         public static void AddStorage<T>(this IServiceCollection services) where T :Storage,IStorage
         {

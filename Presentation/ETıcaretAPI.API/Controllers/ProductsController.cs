@@ -21,11 +21,13 @@ using ETıcaretAPI.Application.Features.Products.Commands.Delete;
 using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.Create;
 using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.Delete;
 using ETıcaretAPI.Application.Features.ProductImageFiles.Queries.GetById;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ETıcaretAPI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes ="Admin")]
     public class ProductsController : ControllerBase
     {
         readonly private IProductWriteRepository _productWriterepository;

@@ -6,6 +6,9 @@ using ETıcaretAPI.Infrastructure.Services.Storage.Local;
 using ETıcaretAPI.Persistence.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ETıcaretAPI.API
 {
@@ -27,7 +30,21 @@ namespace ETıcaretAPI.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-           
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer("Admin", options =>
+                {
+                    options.TokenValidationParameters = new()
+                    {
+                        ValidateAudience = true, // oluşturulacak token değerini hangi sitelerin kullanıcağını bildirir
+                        ValidateIssuer = true, // oluşturulacak token değerini kimin dağıttığğını bildirir (api)
+                        ValidateLifetime = true,// token geçerlilik süresi
+                        ValidateIssuerSigningKey = true, // üretilecek olan token değerinin uygulamamıza ait bir değer olduğunu ifade eden security key  verisinin doğrulanmasıdır
+
+                        ValidAudience = builder.Configuration["Token:Audience"],
+                        ValidIssuer = builder.Configuration["Token:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+                    };
+                });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -39,6 +56,9 @@ namespace ETıcaretAPI.API
             app.UseStaticFiles();   
             app.UseCors();
             app.UseHttpsRedirection();
+
+           
+
 
             app.UseAuthorization();
 
