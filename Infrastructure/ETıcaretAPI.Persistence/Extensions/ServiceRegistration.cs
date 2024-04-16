@@ -1,4 +1,5 @@
 ﻿using ETıcaretAPI.Application.Repositories;
+using ETıcaretAPI.Domain.Entities.Identity;
 using ETıcaretAPI.Persistence.Contexts;
 using ETıcaretAPI.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,11 @@ namespace ETıcaretAPI.Persistence.Extensions
         {
             services.AddDbContext<ETicaretAPIDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("MSSQL")));
+            services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                opt.Password.RequiredLength = 8;
+                opt.User.AllowedUserNameCharacters += "ğĞüÜşŞıİöÖçÇ";
+            }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();

@@ -1,5 +1,7 @@
 ﻿using ETıcaretAPI.Domain.Entities;
 using ETıcaretAPI.Domain.Entities.Common;
+using ETıcaretAPI.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ETıcaretAPI.Persistence.Contexts
 {
-    public class ETicaretAPIDbContext : DbContext
+    public class ETicaretAPIDbContext : IdentityDbContext<AppUser,AppRole,string>
     {
         public ETicaretAPIDbContext(DbContextOptions<ETicaretAPIDbContext> options, IConfiguration configuration) : base(options)
         {
