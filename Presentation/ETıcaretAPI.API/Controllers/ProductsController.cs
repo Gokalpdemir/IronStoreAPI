@@ -116,7 +116,7 @@ namespace ETıcaretAPI.API.Controllers
         [HttpDelete("[action]/{productId}")]
         public async Task<IActionResult> DeleteProductImage( [FromRoute]string productId,[FromQuery] string imageId) 
         {
-            DeleteProductImageCommandRequest deleteProductImageCommandRequest= new DeleteProductImageCommandRequest(productId,imageId);   
+          DeleteProductImageCommandRequest deleteProductImageCommandRequest= new DeleteProductImageCommandRequest(productId,imageId);   
           DeletedProductImageCommandResponse response = await _mediator.Send(deleteProductImageCommandRequest);
             return Ok(response);
         }

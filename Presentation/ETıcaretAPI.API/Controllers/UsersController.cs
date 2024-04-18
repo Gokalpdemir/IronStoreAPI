@@ -1,4 +1,5 @@
 ﻿using ETıcaretAPI.Application.Features.AppUsers.Commands.Create;
+using ETıcaretAPI.Application.Features.AppUsers.Commands.GoogleLogin;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.Login;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,11 @@ namespace ETıcaretAPI.API.Controllers
             return Ok(response);
         }
 
-
+        [HttpPost("google-login")]
+        public async Task<IActionResult> GoogleLogin(GoogleLoginCommandRequest googleLoginCommandRequest)
+        {
+            GoogleLoginCommandResponse response = await _mediator.Send(googleLoginCommandRequest);
+            return Ok(response);
+        }
     }
 }
