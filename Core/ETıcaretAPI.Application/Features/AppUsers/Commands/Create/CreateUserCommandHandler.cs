@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ETıcaretAPI.Application.Abstractions.Services;
+using ETıcaretAPI.Application.Dtos.User;
 using ETıcaretAPI.Application.Exceptions;
 using ETıcaretAPI.Domain.Entities.Identity;
 using MediatR;
@@ -8,31 +10,19 @@ namespace ETıcaretAPI.Application.Features.AppUsers.Commands.Create
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreatedUserCommandResponse>
     {
-        private readonly UserManager<AppUser> _userManager;
+        
         private readonly IMapper _mapper;
-        public CreateUserCommandHandler(UserManager<AppUser> userManager, IMapper mapper)
+        private readonly IUserService _userService;
+        public CreateUserCommandHandler(IMapper mapper, IUserService userService)
         {
-            _userManager = userManager;
             _mapper = mapper;
+            _userService = userService;
         }
         public async Task<CreatedUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
-            AppUser user = _mapper.Map<AppUser>(request);
-            user.Id=Guid.NewGuid().ToString();
-            
-          IdentityResult result=   await _userManager.CreateAsync(user,request.Password);
-            CreatedUserCommandResponse response= new CreatedUserCommandResponse() { Succeeded=result.Succeeded};
-            if (result.Succeeded)
-                response.Message = "Kullanıcı başarıyla kaydedilmiştir";
-            else
-            {
-                foreach (var err in result.Errors)
-                {
-                    response.Message += $"{err.Code} - {err.Description}\n";
-                }
-            }
 
-            return response;
+         CreatedUserDto response=   await _userService.CreateAsync(_mapper.Map<CreateUserDto>(request));
+            return _mapper.Map<CreatedUserCommandResponse>(response);
 
         }
     }

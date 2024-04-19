@@ -1,13 +1,18 @@
-﻿using ETıcaretAPI.Application.Repositories;
+﻿using ETıcaretAPI.Application.Abstractions.Services;
+using ETıcaretAPI.Application.Abstractions.Services.Authentication;
+using ETıcaretAPI.Application.Repositories;
 using ETıcaretAPI.Domain.Entities.Identity;
+using ETıcaretAPI.Infrastructure.Services.User;
 using ETıcaretAPI.Persistence.Contexts;
 using ETıcaretAPI.Persistence.Repositories;
+using ETıcaretAPI.Persistence.Services.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +29,7 @@ namespace ETıcaretAPI.Persistence.Extensions
             {
                 opt.Password.RequiredLength = 8;
                 opt.User.AllowedUserNameCharacters += "ğĞüÜşŞıİöÖçÇ";
+                
             }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
@@ -43,6 +49,12 @@ namespace ETıcaretAPI.Persistence.Extensions
 
             services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
             services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IExternalAuthentication, AuthService>();
+            services.AddScoped<IInternalAuthentication, AuthService>();
+
         } 
 
     }

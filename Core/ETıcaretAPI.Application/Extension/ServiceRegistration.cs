@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ETıcaretAPI.Application.Abstractions.Services;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace ETıcaretAPI.Application.Extension
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(configuration=> configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+           
+
         }
     }
 }
