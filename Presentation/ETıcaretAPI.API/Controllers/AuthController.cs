@@ -1,5 +1,6 @@
 ﻿using ETıcaretAPI.Application.Features.AppUsers.Commands.GoogleLogin;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.Login;
+using ETıcaretAPI.Application.Features.AppUsers.Commands.RefreshToken;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,12 @@ namespace ETıcaretAPI.API.Controllers
             return Ok(response);
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshTokenLogin([FromBody]RefreshTokenCommandRequest refreshTokenCommandRequest)
+        {
+            RefreshTokenCommandResponse refreshTokenCommandResponse = await _mediator.Send(refreshTokenCommandRequest);
+            return Ok(refreshTokenCommandResponse);
+        }
 
     }
 }

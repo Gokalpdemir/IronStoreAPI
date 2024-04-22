@@ -9,6 +9,7 @@ using ETıcaretAPI.Domain.Entities.Identity;
 using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -24,13 +25,15 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IUserService _userService;
 
-        public AuthService(ITokenHandler tokenHandler, UserManager<AppUser> userManager, IConfiguration configuration, SignInManager<AppUser> signInManager)
+        public AuthService(ITokenHandler tokenHandler, UserManager<AppUser> userManager, IConfiguration configuration, SignInManager<AppUser> signInManager, IUserService userService)
         {
             _tokenHandler = tokenHandler;
             _userManager = userManager;
             _configuration = configuration;
             _signInManager = signInManager;
+            _userService = userService;
         }
 
 
@@ -70,6 +73,7 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
                 throw new Exception("hata aldıkkkkkk");
             }
             Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+            await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
             return token;
         }
 
@@ -90,10 +94,24 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
             if (result.Succeeded) //authentication başarılı Authorize işlemi yap.
             {
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+               await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                
                 return token;
             }
 
-            throw new AuthenticationErrorException();
+            throw new AuthenticationErrorException("Kullanıcı adı veya Şifresi hatalı");
+        }
+
+        public async Task<Token> RefreshTokenLoginAsync(string refreshToken)
+        {
+           AppUser? user = await  _userManager.Users.FirstOrDefaultAsync(u=>u.RefreshToken == refreshToken);
+            if(user != null && user?.RefreshTokenEndDate>DateTime.UtcNow)
+            {
+              Token token = _tokenHandler.CreateAccessToken(15);
+               await _userService.UpdateRefreshToken(token.RefreshToken,user, token.Expiration, 15);
+                return token;
+            }else
+            throw new NotFoundUserException();
         }
     }
 }

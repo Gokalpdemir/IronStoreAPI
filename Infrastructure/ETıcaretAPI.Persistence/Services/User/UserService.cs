@@ -2,6 +2,7 @@
 using Azure.Core;
 using ETıcaretAPI.Application.Abstractions.Services;
 using ETıcaretAPI.Application.Dtos.User;
+using ETıcaretAPI.Application.Exceptions;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.Create;
 using ETıcaretAPI.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -41,6 +42,20 @@ namespace ETıcaretAPI.Infrastructure.Services.User
                 }
             }
             return response;
+        }
+
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate,int addOnAccessTokenDate)
+        { 
+            
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
+                await _userManager.UpdateAsync(user);
+            }
+            else      
+                throw new NotFoundUserException();
+            
         }
     }
 }
