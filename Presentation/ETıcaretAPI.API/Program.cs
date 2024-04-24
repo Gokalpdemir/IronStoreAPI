@@ -1,4 +1,7 @@
+using EticaretAPI.SignalR.Extension;
+using EticaretAPI.SignalR.Hubs;
 using ETıcaretAPI.API.Configurations.ColumnWriters;
+using ETıcaretAPI.API.Extensions;
 using ETıcaretAPI.Application.Extension;
 using ETıcaretAPI.Application.Validators.Products;
 using ETıcaretAPI.Infrastructure.Extension;
@@ -29,9 +32,10 @@ namespace ETıcaretAPI.API
             // Add services to the container.
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddAplicationServices();
+            builder.Services.AddSignalRServices();
             builder.Services.AddInfrastructureServices();
             builder.Services.AddStorage<LocalStorage>();
-            builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
+            builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
             SqlColumn sqlColumn = new SqlColumn();
             sqlColumn.ColumnName = "UserName";
             sqlColumn.DataType = System.Data.SqlDbType.NVarChar;
@@ -105,6 +109,7 @@ namespace ETıcaretAPI.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.ConfiguureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
             app.UseStaticFiles();
             app.UseSerilogRequestLogging();
             app.UseHttpLogging();
@@ -123,7 +128,7 @@ namespace ETıcaretAPI.API
                 await next();
             });
             app.MapControllers();
-
+            app.AddHubRegistration();
             app.Run();
         }
     }

@@ -22,7 +22,8 @@ namespace ETıcaretAPI.Application.Features.Products.Commands.Queries.GetAll
         }
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Get all products");
+           
+            
             var totalCount = _productReadrepository.GetAll(false).Count();
             var products = _productReadrepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Select(p => new
             {

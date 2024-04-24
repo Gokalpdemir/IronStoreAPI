@@ -26,11 +26,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\ETıcaretAPI.Application\ETıcaretAPI.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\EticaretAPI.SignalR\EticaretAPI.SignalR.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ETıcaretAPI.Infrastructure\ETıcaretAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ETıcaretAPI.Persistence\ETıcaretAPI.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Middlewares\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
