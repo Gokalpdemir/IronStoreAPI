@@ -70,9 +70,9 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
             }
             else
             {
-                throw new Exception("hata aldıkkkkkk");
+                throw new Exception("Hata");
             }
-            Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+            Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime,user);
             await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
             return token;
         }
@@ -93,7 +93,7 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
 
             if (result.Succeeded) //authentication başarılı Authorize işlemi yap.
             {
-                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
                 
                 return token;
@@ -107,7 +107,7 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
            AppUser? user = await  _userManager.Users.FirstOrDefaultAsync(u=>u.RefreshToken == refreshToken);
             if(user != null && user?.RefreshTokenEndDate>DateTime.UtcNow)
             {
-              Token token = _tokenHandler.CreateAccessToken(15);
+              Token token = _tokenHandler.CreateAccessToken(15,user);
                await _userService.UpdateRefreshToken(token.RefreshToken,user, token.Expiration, 15);
                 return token;
             }else

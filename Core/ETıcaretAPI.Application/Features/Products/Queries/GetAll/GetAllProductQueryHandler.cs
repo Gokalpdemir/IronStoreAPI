@@ -1,6 +1,7 @@
 ﻿using ETıcaretAPI.Application.Repositories;
 using ETıcaretAPI.Application.RequestParametters;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,16 @@ namespace ETıcaretAPI.Application.Features.Products.Commands.Queries.GetAll
     public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>
     {
         private readonly IProductReadRepository _productReadrepository;
-        public GetAllProductQueryHandler(IProductReadRepository productReadrepository)
+        private readonly ILogger<GetAllProductQueryHandler> _logger;
+        public GetAllProductQueryHandler(IProductReadRepository productReadrepository, ILogger<GetAllProductQueryHandler> logger)
         {
 
             _productReadrepository = productReadrepository;
-
+            _logger = logger;
         }
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Get all products");
             var totalCount = _productReadrepository.GetAll(false).Count();
             var products = _productReadrepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Select(p => new
             {

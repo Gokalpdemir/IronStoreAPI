@@ -6,6 +6,7 @@ using ETıcaretAPI.Application.Exceptions;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.Create;
 using ETıcaretAPI.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace ETıcaretAPI.Infrastructure.Services.User
     {
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+       
+
 
         public UserService(IMapper mapper, UserManager<AppUser> userManager)
         {
@@ -55,6 +58,7 @@ namespace ETıcaretAPI.Infrastructure.Services.User
             }
             else      
                 throw new NotFoundUserException();
+            
             
         }
     }
