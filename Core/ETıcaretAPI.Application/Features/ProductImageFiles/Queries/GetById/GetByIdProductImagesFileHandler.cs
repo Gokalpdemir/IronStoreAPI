@@ -25,6 +25,7 @@ namespace ETıcaretAPI.Application.Features.ProductImageFiles.Queries.GetById
                FileName = p.FileName,
                Id = p.Id,
                Path = $"{_configuration["BaseUrl"]}/{p.Path}",
+               ShowCase=p.Showcase
            }
            ).ToList();
 

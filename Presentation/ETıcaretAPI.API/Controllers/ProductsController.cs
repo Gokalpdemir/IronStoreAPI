@@ -22,12 +22,12 @@ using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.Create;
 using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.Delete;
 using ETıcaretAPI.Application.Features.ProductImageFiles.Queries.GetById;
 using Microsoft.AspNetCore.Authorization;
+using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.SelectShowCase;
 
 namespace ETıcaretAPI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes ="Admin")]
     public class ProductsController : ControllerBase
     {
         readonly private IProductWriteRepository _productWriterepository;
@@ -62,64 +62,79 @@ namespace ETıcaretAPI.API.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult> GetById([FromRoute]GetByIdProductQueryRequest getByIdProductQueryRequest)
+        public async Task<ActionResult> GetById([FromRoute] GetByIdProductQueryRequest getByIdProductQueryRequest)
         {
-             GetByIdProductQueryResponse response = await _mediator.Send(getByIdProductQueryRequest);
-           return Ok(response);
+            GetByIdProductQueryResponse response = await _mediator.Send(getByIdProductQueryRequest);
+            return Ok(response);
         }
 
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-          GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
-            return Ok(response);            
+            GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
+            return Ok(response);
         }
 
+        [Authorize(AuthenticationSchemes = "Admin")]
         [HttpPost("add")]
         public async Task<IActionResult> Add(CreateProductCommandRequest createProductCommandRequest)
         {
-          CreatedProductCommandResponse response=  await _mediator.Send(createProductCommandRequest);
+            CreatedProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
             return Ok(response);
         }
 
+        [Authorize(AuthenticationSchemes = "Admin")]
         [HttpPut("update")]
         public async Task<IActionResult> Update(UpdateProductCommandRequest updateProductCommandRequest)
         {
-           UpdatedProductCommandResponse response= await _mediator.Send(updateProductCommandRequest);
-            return Ok(response);            
-        }
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete([FromRoute]DeleteProductCommandRequest deleteProductCommandRequest)
-        {
-           DeletedProductCommandResponse response= await _mediator.Send(deleteProductCommandRequest);
+            UpdatedProductCommandResponse response = await _mediator.Send(updateProductCommandRequest);
             return Ok(response);
         }
 
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] DeleteProductCommandRequest deleteProductCommandRequest)
+        {
+            DeletedProductCommandResponse response = await _mediator.Send(deleteProductCommandRequest);
+            return Ok(response);
+        }
+
+        [Authorize(AuthenticationSchemes = "Admin")]
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload([FromQuery]string id)
+        public async Task<IActionResult> Upload([FromQuery] string id)
         {
             UploadProductImageCommandRequest uploadProductImageCommandRequest = new UploadProductImageCommandRequest();
             uploadProductImageCommandRequest.Id = id;
-            uploadProductImageCommandRequest.FormCollection = Request.Form.Files; 
-          UploadedProductImageCommandResponse response= await _mediator.Send(uploadProductImageCommandRequest);
-         return Ok(response);
+            uploadProductImageCommandRequest.FormCollection = Request.Form.Files;
+            UploadedProductImageCommandResponse response = await _mediator.Send(uploadProductImageCommandRequest);
+            return Ok(response);
         }
 
+        [Authorize(AuthenticationSchemes = "Admin")]
         [HttpGet("[action]/{id}")]
-        public async  Task<IActionResult> GetProductsImage(string id)
+        public async Task<IActionResult> GetProductsImage(string id)
         {
             GetByIdProductImagesFileRequest getByIdProductImagesFileRequest = new GetByIdProductImagesFileRequest(id);
-           List<GetByIdProductImagesFileResponse> response= await _mediator.Send(getByIdProductImagesFileRequest);
+            List<GetByIdProductImagesFileResponse> response = await _mediator.Send(getByIdProductImagesFileRequest);
             return Ok(response);
         }
 
+        [Authorize(AuthenticationSchemes = "Admin")]
         [HttpDelete("[action]/{productId}")]
-        public async Task<IActionResult> DeleteProductImage( [FromRoute]string productId,[FromQuery] string imageId) 
+        public async Task<IActionResult> DeleteProductImage([FromRoute] string productId, [FromQuery] string imageId)
         {
-          DeleteProductImageCommandRequest deleteProductImageCommandRequest= new DeleteProductImageCommandRequest(productId,imageId);   
-          DeletedProductImageCommandResponse response = await _mediator.Send(deleteProductImageCommandRequest);
+
+            DeleteProductImageCommandRequest deleteProductImageCommandRequest = new DeleteProductImageCommandRequest(productId, imageId);
+            DeletedProductImageCommandResponse response = await _mediator.Send(deleteProductImageCommandRequest);
             return Ok(response);
         }
-       
+
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> selectShowCase([FromQuery]SelectShowCaseCommandRequest selectShowCaseCommandRequest)
+        {
+            SelectedShowCaseCommandResponse response=await _mediator.Send(selectShowCaseCommandRequest);
+            return Ok(response);
+        }
     }
 }
