@@ -30,12 +30,15 @@ namespace ETıcaretAPI.API
         {
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
+            builder.Services.AddHttpContextAccessor(); //requestler neticesinde gelen requestlere karşılık oluşan httpContext nesnesine katmanlardaki classlar üzerinden erişebilmemizi sağlayan servisttir.
+            
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddAplicationServices();
             builder.Services.AddSignalRServices();
             builder.Services.AddInfrastructureServices();
             builder.Services.AddStorage<LocalStorage>();
             builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+            // Serilog
             SqlColumn sqlColumn = new SqlColumn();
             sqlColumn.ColumnName = "UserName";
             sqlColumn.DataType = System.Data.SqlDbType.NVarChar;
@@ -75,7 +78,7 @@ namespace ETıcaretAPI.API
                 logging.RequestBodyLogLimit = 4096;
                 logging.ResponseBodyLogLimit = 4096;
             });
-
+            //serilogEnd
             builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
             builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
             builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())

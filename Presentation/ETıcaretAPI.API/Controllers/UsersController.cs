@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETıcaretAPI.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController()]
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;

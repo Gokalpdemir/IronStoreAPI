@@ -14,7 +14,7 @@ namespace ETıcaretAPI.Application.Extension
     {
         public static void AddAplicationServices(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly()); 
             services.AddMediatR(configuration=> configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
            
 

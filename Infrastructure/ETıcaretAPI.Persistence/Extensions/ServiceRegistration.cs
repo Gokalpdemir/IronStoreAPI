@@ -1,10 +1,12 @@
-﻿using ETıcaretAPI.Application.Abstractions.Services;
+﻿using ETıcaretAPI.Application.Abstractions.Basket;
+using ETıcaretAPI.Application.Abstractions.Services;
 using ETıcaretAPI.Application.Abstractions.Services.Authentication;
 using ETıcaretAPI.Application.Repositories;
 using ETıcaretAPI.Domain.Entities.Identity;
 using ETıcaretAPI.Infrastructure.Services.User;
 using ETıcaretAPI.Persistence.Contexts;
 using ETıcaretAPI.Persistence.Repositories;
+using ETıcaretAPI.Persistence.Services;
 using ETıcaretAPI.Persistence.Services.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -49,13 +51,28 @@ namespace ETıcaretAPI.Persistence.Extensions
 
             services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
             services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
+
             services.AddScoped<IUserService, UserService>();
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             services.AddScoped<IAuthService, AuthService>();
+
             services.AddScoped<IExternalAuthentication, AuthService>();
             services.AddScoped<IInternalAuthentication, AuthService>();
 
-        } 
+            services.AddScoped<IBasketReadRepository, BasketReadRepository>();
+            services.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
+
+            services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
+            services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
+
+            services.AddScoped<IBasketService, BasketService>();
+
+
+
+
+        }
 
     }
 }
