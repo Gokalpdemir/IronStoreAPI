@@ -22,7 +22,8 @@ namespace ETıcaretAPI.Application.Features.Basket.Query.GetBasketItem
                     BasketItemId = ba.Id.ToString(),
                     Name = ba.Product.Name,
                     Price = ba.Product.Price,
-                    Quantity = ba.Quantity
+                    Quantity = ba.Quantity,
+                    ProductImageFiles=ba.Product.ProductImageFiles.Select(pi=>pi.Path).ToList(),
                 }
             ).ToList();
         }

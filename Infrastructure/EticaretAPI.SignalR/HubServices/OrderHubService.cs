@@ -10,19 +10,18 @@ using System.Threading.Tasks;
 
 namespace EticaretAPI.SignalR.HubServices
 {
-    public class ProductHubService : IProductHubService
+    public class OrderHubService : IOrderHubService
     {
-        readonly private IHubContext<ProductHub> _hubContext;
+        private readonly IHubContext<OrderHub> _hubContext;
 
-        public ProductHubService(IHubContext<ProductHub> hubContext)
+        public OrderHubService(IHubContext<OrderHub> hubContext)
         {
             _hubContext = hubContext;
         }
 
-        public async Task ProductAddedMessageAsync(string message)
+        public async Task OrderAddedMessageAsync(string message)
         {
-          await _hubContext.Clients.All.SendAsync(ReceiveFunctionNames.productAddedMessage,message);
-
+            await _hubContext.Clients.All.SendAsync( ReceiveFunctionNames.OrderAddedMessage,message);
         }
     }
 }

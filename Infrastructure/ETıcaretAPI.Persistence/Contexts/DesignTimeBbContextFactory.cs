@@ -18,7 +18,11 @@ namespace ETıcaretAPI.Persistence.Contexts
         {
             _configuration = configuration;
         }
-       
+        public DesignTimeBbContextFactory()
+        {
+            
+        }
+
         public ETicaretAPIDbContext CreateDbContext(string[] args)
         {
             DbContextOptionsBuilder<ETicaretAPIDbContext> dbContextOptionsBuilder = new();

@@ -13,6 +13,7 @@ namespace EticaretAPI.SignalR.Extension
         public static void AddHubRegistration(this WebApplication webApplication)
         {
             webApplication.MapHub<ProductHub>("/products-hub");
+            webApplication.MapHub<OrderHub>("/orders-hub");
         }
     }
 }

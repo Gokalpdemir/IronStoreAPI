@@ -1,5 +1,5 @@
 ﻿using ETıcaretAPI.Application.Dtos.Basket;
-using ETıcaretAPI.Domain.Entities;
+using  ETıcaretAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +16,6 @@ namespace ETıcaretAPI.Application.Abstractions.Basket
         public Task UpdateQuantityAsync(UpdateBasketItem updateBasketItem);
 
         public Task RemoveBasketItemAsync(string BasketItemId);
+        public ETıcaretAPI.Domain.Entities.Basket? GetUserActiveBasket { get; }
     }
 }

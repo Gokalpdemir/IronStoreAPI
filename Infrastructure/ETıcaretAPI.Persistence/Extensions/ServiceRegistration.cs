@@ -8,6 +8,7 @@ using ETıcaretAPI.Persistence.Contexts;
 using ETıcaretAPI.Persistence.Repositories;
 using ETıcaretAPI.Persistence.Services;
 using ETıcaretAPI.Persistence.Services.Authentication;
+using ETıcaretAPI.Persistence.Services.Order;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,6 +69,7 @@ namespace ETıcaretAPI.Persistence.Extensions
             services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
 
             services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<IOrderService, OrderService>();
 
 
 

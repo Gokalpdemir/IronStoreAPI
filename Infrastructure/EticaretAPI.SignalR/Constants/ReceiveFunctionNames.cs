@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETıcaretAPI.Domain.Constants
+namespace EticaretAPI.SignalR.Constants
 {
     public static class ReceiveFunctionNames
     {
         public const string productAddedMessage = "receiveProductAddedMessage";
+        public const string OrderAddedMessage = "receiveOrderAddedMessage";
     }
 }
