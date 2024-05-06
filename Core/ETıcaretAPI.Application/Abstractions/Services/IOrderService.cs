@@ -10,5 +10,9 @@ namespace ETıcaretAPI.Application.Abstractions.Services
     public interface IOrderService
     {
         Task CreateOrderAsync(CreateOrderDto createOrder);
+        Task<ListOrderDto> GetAllOrdersAsync(int page,int size);
+        Task DeleteOrderAsync(string orderId);
+        Task<OrderDto> GetOrderByIdAsync(string orderId);
+        
     }
 }
