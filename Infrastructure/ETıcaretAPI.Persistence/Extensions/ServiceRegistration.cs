@@ -8,6 +8,7 @@ using ETıcaretAPI.Persistence.Contexts;
 using ETıcaretAPI.Persistence.Repositories;
 using ETıcaretAPI.Persistence.Services;
 using ETıcaretAPI.Persistence.Services.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,8 @@ namespace ETıcaretAPI.Persistence.Extensions
                 opt.Password.RequiredLength = 8;
                 opt.User.AllowedUserNameCharacters += "ğĞüÜşŞıİöÖçÇ";
                 
-            }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
+            }).AddEntityFrameworkStores<ETicaretAPIDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();

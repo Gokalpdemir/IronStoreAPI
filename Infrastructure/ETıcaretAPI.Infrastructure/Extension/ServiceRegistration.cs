@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ETıcaretAPI.Application.Abstractions.Token;
 using ETıcaretAPI.Infrastructure.Services.Token;
+using ETıcaretAPI.Application.Abstractions.Services;
 
 namespace ETıcaretAPI.Infrastructure.Extension
 {
@@ -20,6 +21,7 @@ namespace ETıcaretAPI.Infrastructure.Extension
         {
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<ITokenHandler, TokenHandler>();
+            services.AddScoped <IMailService, MailService>();
         }
         public static void AddStorage<T>(this IServiceCollection services) where T :Storage,IStorage
         {

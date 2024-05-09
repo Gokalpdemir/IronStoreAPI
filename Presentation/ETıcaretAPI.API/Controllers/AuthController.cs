@@ -1,6 +1,8 @@
 ﻿using ETıcaretAPI.Application.Features.AppUsers.Commands.GoogleLogin;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.Login;
+using ETıcaretAPI.Application.Features.AppUsers.Commands.PasswordReset;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.RefreshToken;
+using ETıcaretAPI.Application.Features.AppUsers.Commands.VerifyResetToken;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +40,18 @@ namespace ETıcaretAPI.API.Controllers
             RefreshTokenCommandResponse refreshTokenCommandResponse = await _mediator.Send(refreshTokenCommandRequest);
             return Ok(refreshTokenCommandResponse);
         }
+        [HttpPost("password-reset")]
+        public async Task<IActionResult> PasswordReset([FromBody]PasswordResetCommandRequest passwordResetCommandRequest)
+        {
+          PasswordResetCommandResponse response= await _mediator.Send(passwordResetCommandRequest);
+            return Ok(response);
+        }
 
+        [HttpPost("verify-reset-token")]
+        public async Task<IActionResult> VerifyResetToken(VerifyResetTokenCommandRequest verifyResetTokenCommandRequest)
+        {
+            VerifyResetTokenCommandResponse response = await _mediator.Send(verifyResetTokenCommandRequest);
+            return Ok(response);
+        }
     }
 }

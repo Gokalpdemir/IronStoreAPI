@@ -1,6 +1,8 @@
-﻿using ETıcaretAPI.Application.Features.AppUsers.Commands.Create;
+﻿using ETıcaretAPI.Application.Abstractions.Services;
+using ETıcaretAPI.Application.Features.AppUsers.Commands.Create;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.GoogleLogin;
 using ETıcaretAPI.Application.Features.AppUsers.Commands.Login;
+using ETıcaretAPI.Application.Features.AppUsers.Commands.UpdatePassword;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +14,11 @@ namespace ETıcaretAPI.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public UsersController(IMediator mediator)
+        private readonly IMailService _mailService;
+        public UsersController(IMediator mediator, IMailService mailService)
         {
             _mediator = mediator;
+            _mailService = mailService;
         }
 
         [HttpPost]
@@ -24,6 +28,12 @@ namespace ETıcaretAPI.API.Controllers
             return Ok(response);
 
         }
-        
+
+        [HttpPost("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordCommandRequest updatePasswordCommandRequest)
+        {
+            UpdatePasswordCommandResponse response = await _mediator.Send(updatePasswordCommandRequest);
+            return Ok(response);
+        }
     }
 }
