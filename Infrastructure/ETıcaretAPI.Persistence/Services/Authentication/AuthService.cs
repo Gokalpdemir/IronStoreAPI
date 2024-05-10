@@ -106,6 +106,7 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
             }
 
             throw new AuthenticationErrorException("Kullanıcı adı veya Şifresi hatalı");
+            
         }
 
 
@@ -129,7 +130,6 @@ namespace ETıcaretAPI.Persistence.Services.Authentication
             {
                 string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
                 
-
                 resetToken = resetToken.UrlEncode();
                 await _mailService.SendPasswordResetMailAsync(email, user.Id, resetToken);
             }

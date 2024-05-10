@@ -25,6 +25,8 @@ namespace ETıcaretAPI.Application.Features.Orders.Queries.GetById
                 OrderCode = data.OrderCode,
                 TotalPrice = data.TotalPrice,
                 UserName = data.UserName,
+
+                IsCompleted = data.IsCompleted,
             };
         }
     }

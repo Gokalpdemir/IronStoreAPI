@@ -48,16 +48,24 @@ namespace ETıcaretAPI.Infrastructure.Services
         {
             StringBuilder mail = new();
             mail.AppendLine($"Merhaba<br>Eğer yeni şifre talebinde bulunduysanız aşağıdaki linkten şifrenizi yenileyebilirsiniz.<br><strong><a target=\"_blank\" href=\"{_configuration["AngularClientUrl"]}/update-password/{userId}/{resetToken}\">Yeni şifre talebi için tıklayınız...</a></strong><br><br><span style=\"font-size:12px;\">NOT : Eğer ki bu talep tarafınızca gerçekleştirilmemişse lütfen bu maili ciddiye almayınız.</span><br>Saygılarımızla...<br><br><br>-IronStore");
-
-            //StringBuilder mail = new();
-            //mail.AppendLine("Merhaba<br>Eğer yeni şifre talebinde bulunduysanız aşağıdaki linkten şifrenizi yenileyebilirsiniz.<br><strong><a target=\"_blank\" href=\"");
-            //mail.AppendLine($"{_configuration["AngularClientUrl"]}/update-password/"); 
-            ////mail.AppendLine("/update-password/");
-            //mail.AppendLine(userId);
-            //mail.AppendLine("/");
-            //mail.AppendLine(resetToken);
-            //mail.AppendLine("\">Yeni şifre talebi için tıklayınız...</a></strong><br><br><span style=\"font-size:12px;\">NOT : Eğer ki bu talep tarafınızca gerçekleştirilmemişse lütfen bu maili ciddiye almayınız.</span><br>Saygılarımızla...<br><br><br>-IronStore");
             await SendMailAsync(to, "Şifre Yenileme Talebi", mail.ToString());
+        }
+
+        public async Task SendCompletedOrderMailAsync(string to, string orderCode, DateTime orderDate, string userName)
+        {
+            StringBuilder mail = new();
+            mail.AppendLine($"Sayın {userName} <br> " +
+                $"{orderDate} tarihli {orderCode}  nolu siparişiniz Kargoya verilmiştir. ");
+
+            await SendMailAsync(to, "Siparişiniz Tamamlandı", mail.ToString());
+
+           
+
+
+                 
+
+
+              
         }
     }
 }

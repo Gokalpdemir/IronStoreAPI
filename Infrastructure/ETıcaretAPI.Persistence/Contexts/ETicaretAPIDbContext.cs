@@ -48,6 +48,15 @@ namespace ETıcaretAPI.Persistence.Contexts
                 .WithOne(o => o.Basket)
                 .HasForeignKey<Order>(o=>o.Id);
 
+
+            builder.Entity<Order>()
+                 .HasOne(o => o.CompletedOrder)
+                 .WithOne(co => co.Order)
+                 .HasForeignKey<CompletedOrder>(co => co.OrderId);
+               
+
+
+
             base.OnModelCreating(builder);
         }
 

@@ -10,5 +10,6 @@
         public string UserName { get; set; }
         public float TotalPrice { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

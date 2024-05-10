@@ -1,4 +1,5 @@
-﻿using ETıcaretAPI.Application.Dtos.Order;
+﻿using ETıcaretAPI.Application.Dtos.CompleteOrder;
+using ETıcaretAPI.Application.Dtos.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace ETıcaretAPI.Application.Abstractions.Services
         Task<ListOrderDto> GetAllOrdersAsync(int page,int size);
         Task DeleteOrderAsync(string orderId);
         Task<OrderDto> GetOrderByIdAsync(string orderId);
+        Task<CompletedOrderDto> CompleteOrderAsync(string orderId);
         
     }
 }

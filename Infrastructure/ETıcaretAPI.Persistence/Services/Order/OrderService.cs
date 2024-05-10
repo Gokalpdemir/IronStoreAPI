@@ -1,5 +1,7 @@
 ﻿using ETıcaretAPI.Application.Abstractions.Services;
+using ETıcaretAPI.Application.Dtos.CompleteOrder;
 using ETıcaretAPI.Application.Dtos.Order;
+using ETıcaretAPI.Application.Exceptions;
 using ETıcaretAPI.Application.Repositories;
 using ETıcaretAPI.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +17,15 @@ namespace ETıcaretAPI.Persistence.Services
     {
         private readonly IOrderWriteRepository _orderWriteRepository;
         private readonly IOrderReadRepository _orderReadRepository;
+        private readonly ICompletedOrderWriteRepository _completedOrderWriteRepository;
 
-        public OrderService(IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository)
+        public OrderService(IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository, ICompletedOrderWriteRepository completedOrderWriteRepository)
         {
             _orderWriteRepository = orderWriteRepository;
             _orderReadRepository = orderReadRepository;
+            _completedOrderWriteRepository = completedOrderWriteRepository;
         }
+
 
         public async Task CreateOrderAsync(CreateOrderDto createOrder)
         {
@@ -54,8 +59,8 @@ namespace ETıcaretAPI.Persistence.Services
                 .ThenInclude(b => b.User)
                 .Include(o => o.Basket)
                 .ThenInclude(b => b.BasketItems)
-                .ThenInclude(bi => bi.Product);
-
+                .ThenInclude(bi => bi.Product)
+                .Include(o => o.CompletedOrder);
             var data = query.Skip(page * size).Take(size);
             return new ListOrderDto()
             {
@@ -65,7 +70,9 @@ namespace ETıcaretAPI.Persistence.Services
                     CreatedDate=o.CreatedDate,
                     OrderCode=o.OrderCode,
                     TotalPrice=o.Basket.BasketItems.Sum(bi=>bi.Product.Price*bi.Quantity),
-                    UserName=o.Basket.User.UserName
+                    UserName=o.Basket.User.UserName,
+                    IsCompleted=o.CompletedOrder.CreatedDate != null ? true: false,
+
                 }).ToListAsync(),
                 TotalOrderCount=await query.CountAsync(),
             };
@@ -80,6 +87,7 @@ namespace ETıcaretAPI.Persistence.Services
                 .Include(o=>o.Basket)
                 .ThenInclude(b=>b.BasketItems)
                 .ThenInclude(bi=>bi.Product)
+                .Include(o => o.CompletedOrder)
                 .FirstOrDefaultAsync(o=>o.Id==Guid.Parse(orderId));
             return new OrderDto()
             {
@@ -90,14 +98,35 @@ namespace ETıcaretAPI.Persistence.Services
                     bi.Product.Name,
                     bi.Product.Price,
                     bi.Quantity
+                    
                 }),
                 OrderCode=order.OrderCode,
                 UserName=order.Basket.User.UserName,
                 CreatedDate=order.CreatedDate,
                 Description=order.Description,
                 TotalPrice=order.Basket.BasketItems.Sum(bi=>bi.Product.Price * bi.Quantity),
+                IsCompleted = order.CompletedOrder != null ? true : false,
 
             };
+        }
+        public async Task<CompletedOrderDto> CompleteOrderAsync(string orderId)
+        {
+            Order? order = await _orderReadRepository.Table.Include(o => o.Basket).ThenInclude(b => b.User).FirstOrDefaultAsync(o=>o.Id==Guid.Parse(orderId));
+            if(order != null)
+            {
+                await _completedOrderWriteRepository.AddAsync(new CompletedOrder () {OrderId = Guid.Parse(orderId) });
+                await _completedOrderWriteRepository.SaveAsync();
+                return new CompletedOrderDto()
+                {
+                    Email = order.Basket.User.Email,
+                    IsSuccess = true,
+                    OrderCode = order.OrderCode,
+                    OrderDate = order.CreatedDate,
+                    UserName = order.Basket.User.NameSurname,
+                };
+
+            }
+            throw new OrderNotBeCompleted();
         }
     }
 }
