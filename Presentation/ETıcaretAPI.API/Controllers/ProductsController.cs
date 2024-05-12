@@ -23,6 +23,9 @@ using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.Delete;
 using ETıcaretAPI.Application.Features.ProductImageFiles.Queries.GetById;
 using Microsoft.AspNetCore.Authorization;
 using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.SelectShowCase;
+using ETıcaretAPI.Application.Const;
+using ETıcaretAPI.Application.CustomAttributes;
+using ETıcaretAPI.Application.Enums;
 
 namespace ETıcaretAPI.API.Controllers
 {
@@ -77,6 +80,8 @@ namespace ETıcaretAPI.API.Controllers
 
         [Authorize(AuthenticationSchemes = "Admin")]
         [HttpPost("add")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Create Product")]
+
         public async Task<IActionResult> Add(CreateProductCommandRequest createProductCommandRequest)
         {
             CreatedProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
@@ -85,6 +90,8 @@ namespace ETıcaretAPI.API.Controllers
 
         [Authorize(AuthenticationSchemes = "Admin")]
         [HttpPut("update")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Updating, Definition = "Update Product")]
+
         public async Task<IActionResult> Update(UpdateProductCommandRequest updateProductCommandRequest)
         {
             UpdatedProductCommandResponse response = await _mediator.Send(updateProductCommandRequest);
@@ -93,6 +100,8 @@ namespace ETıcaretAPI.API.Controllers
 
         [Authorize(AuthenticationSchemes = "Admin")]
         [HttpDelete("{Id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Deleting, Definition = "Remove Product")]
+
         public async Task<IActionResult> Delete([FromRoute] DeleteProductCommandRequest deleteProductCommandRequest)
         {
             DeletedProductCommandResponse response = await _mediator.Send(deleteProductCommandRequest);
@@ -101,6 +110,8 @@ namespace ETıcaretAPI.API.Controllers
 
         [Authorize(AuthenticationSchemes = "Admin")]
         [HttpPost("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Create Product Image")]
+
         public async Task<IActionResult> Upload([FromQuery] string id)
         {
             UploadProductImageCommandRequest uploadProductImageCommandRequest = new UploadProductImageCommandRequest();
@@ -112,6 +123,8 @@ namespace ETıcaretAPI.API.Controllers
 
         [Authorize(AuthenticationSchemes = "Admin")]
         [HttpGet("[action]/{id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Get Product Images By Id")]
+
         public async Task<IActionResult> GetProductsImage(string id)
         {
             GetByIdProductImagesFileRequest getByIdProductImagesFileRequest = new GetByIdProductImagesFileRequest(id);
@@ -121,6 +134,8 @@ namespace ETıcaretAPI.API.Controllers
 
         [Authorize(AuthenticationSchemes = "Admin")]
         [HttpDelete("[action]/{productId}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Deleting, Definition = "Remove Product Image")]
+
         public async Task<IActionResult> DeleteProductImage([FromRoute] string productId, [FromQuery] string imageId)
         {
 
@@ -131,6 +146,8 @@ namespace ETıcaretAPI.API.Controllers
 
         [Authorize(AuthenticationSchemes = "Admin")]
         [HttpPut("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Updating, Definition = "Change ShowCase Image")]
+
         public async Task<IActionResult> selectShowCase([FromQuery]SelectShowCaseCommandRequest selectShowCaseCommandRequest)
         {
             SelectedShowCaseCommandResponse response=await _mediator.Send(selectShowCaseCommandRequest);

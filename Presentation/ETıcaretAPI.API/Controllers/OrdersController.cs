@@ -1,4 +1,7 @@
-﻿using ETıcaretAPI.Application.Features.Orders.Commands.CompleteOrder;
+﻿using ETıcaretAPI.Application.Const;
+using ETıcaretAPI.Application.CustomAttributes;
+using ETıcaretAPI.Application.Enums;
+using ETıcaretAPI.Application.Features.Orders.Commands.CompleteOrder;
 using ETıcaretAPI.Application.Features.Orders.Commands.Create;
 using ETıcaretAPI.Application.Features.Orders.Commands.Delete;
 using ETıcaretAPI.Application.Features.Orders.Queries.GetAll;
@@ -23,12 +26,16 @@ namespace ETıcaretAPI.API.Controllers
         }
 
         [HttpGet("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Orders, ActionType = ActionType.Reading, Definition = "Get All Orders")]
+
         public async Task<IActionResult> GetAll([FromQuery] GetAllOrdersQueryRequest getAllOrdersQueryRequest)
         {
             GetAllOrdersQueryResponse responses = await _mediator.Send(getAllOrdersQueryRequest);
             return Ok(responses);
         }
         [HttpGet("{Id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Orders, ActionType = ActionType.Reading, Definition = "Get  Order By Id")]
+
         public async Task<IActionResult> GetOrderById([FromRoute] GetByIdOrderQueryRequest getByIdOrderQueryRequest)
         {
             GetByIdOrderQueryResponse response = await _mediator.Send(getByIdOrderQueryRequest);
@@ -36,6 +43,8 @@ namespace ETıcaretAPI.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Orders, ActionType = ActionType.Writing, Definition = "Create Order")]
+
         public async Task<IActionResult> CreateOrder(CreateOrderCommandRequest createOrderCommandRequest)
         {
             CreateOrderCommandResponse response = await _mediator.Send(createOrderCommandRequest);
@@ -43,6 +52,8 @@ namespace ETıcaretAPI.API.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Orders, ActionType = ActionType.Deleting, Definition = "Remove Order")]
+
         public async Task<IActionResult> DeleteOrder([FromRoute] DeleteOrdeCommandRequest deleteOrdeCommandRequest)
         {
             DeleteOrdeCommandResponse response = await _mediator.Send(deleteOrdeCommandRequest);
@@ -50,6 +61,8 @@ namespace ETıcaretAPI.API.Controllers
         }
 
         [HttpGet("complete-order/{Id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Orders, ActionType = ActionType.Updating, Definition = "Complete Order")]
+
         public async Task<IActionResult> CompleteOrder([FromRoute] CompleteOrderCommandRequest completeOrderCommandRequest)
         {
             CompleteOrderCommandResponse response = await _mediator.Send(completeOrderCommandRequest);

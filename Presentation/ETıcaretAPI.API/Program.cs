@@ -101,6 +101,7 @@ namespace ETıcaretAPI.API
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
                         LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow : false,
                         NameClaimType = ClaimTypes.Name,
+                        
 
                     };
                 });

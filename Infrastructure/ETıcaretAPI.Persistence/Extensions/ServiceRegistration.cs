@@ -8,6 +8,7 @@ using ETıcaretAPI.Persistence.Contexts;
 using ETıcaretAPI.Persistence.Repositories;
 using ETıcaretAPI.Persistence.Services;
 using ETıcaretAPI.Persistence.Services.Authentication;
+using ETıcaretAPI.Persistence.Services.Role;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -69,10 +70,14 @@ namespace ETıcaretAPI.Persistence.Extensions
             services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
             services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
 
-            services.AddScoped<IBasketService, BasketService>();
-            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICompletedOrderReadRepository, CompletedOrderReadRepository>();
             services.AddScoped<ICompletedOrderWriteRepository, CompletedOrderWriteRepository>();
+
+            services.AddScoped<IBasketService, BasketService>();
+
+            services.AddScoped<IOrderService, OrderService>();
+            
+            services.AddScoped<IRoleService, RoleService>();
 
 
 
