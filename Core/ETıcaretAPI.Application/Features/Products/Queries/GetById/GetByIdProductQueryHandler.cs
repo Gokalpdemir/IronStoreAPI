@@ -19,7 +19,7 @@ namespace ETıcaretAPI.Application.Features.Products.Queries.GetById
         }
         public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
-           Product product=  await  _productReadRepository.Table.Include(p=>p.ProductImageFiles).FirstOrDefaultAsync(p=>p.Id==Guid.Parse(request.Id));
+           Product product=  await  _productReadRepository.Table.Include(p=>p.ProductImageFiles).Include(p=>p.Category).FirstOrDefaultAsync(p=>p.Id==Guid.Parse(request.Id));
             if (product!=null)
             {
                 GetByIdProductQueryResponse response= new GetByIdProductQueryResponse()
@@ -27,6 +27,7 @@ namespace ETıcaretAPI.Application.Features.Products.Queries.GetById
                     Name = product.Name,
                     Price = product.Price,
                     Stock = product.Stock,
+                    CategoryName=product.Category.Name,
                     ProductImageFiles=product.ProductImageFiles.Select(pif=>pif.Path).ToList(),
                 };
                 return response;

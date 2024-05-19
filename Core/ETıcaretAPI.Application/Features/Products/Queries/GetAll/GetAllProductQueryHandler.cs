@@ -27,7 +27,7 @@ namespace ETıcaretAPI.Application.Features.Products.Commands.Queries.GetAll
             
             var totalProductCount = _productReadrepository.GetAll(false).Count();
             var products = _productReadrepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Include(p=>p.ProductImageFiles
-            ).Select(p => new
+            ).Include(p=>p.Category).Select(p => new
             {
                 p.Id,
                 p.Name,
@@ -35,7 +35,8 @@ namespace ETıcaretAPI.Application.Features.Products.Commands.Queries.GetAll
                 p.Price,
                 p.CreatedDate,
                 p.UpdatedDate,
-                p.ProductImageFiles
+                p.ProductImageFiles,
+              categoryName=  p.Category.Name
             }).ToList();
 
             return new GetAllProductQueryResponse()

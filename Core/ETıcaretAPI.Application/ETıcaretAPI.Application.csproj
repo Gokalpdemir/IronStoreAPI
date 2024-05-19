@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Features\AppUsers\Commands\Delete\" />
     <Folder Include="Features\AppUsers\Commands\Update\" />
-    <Folder Include="Features\AppUsers\Queries\" />
     <Folder Include="Features\ProductImageFiles\Commands\Update\" />
   </ItemGroup>
 

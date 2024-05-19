@@ -26,6 +26,7 @@ using ETıcaretAPI.Application.Features.ProductImageFiles.Commands.SelectShowCas
 using ETıcaretAPI.Application.Const;
 using ETıcaretAPI.Application.CustomAttributes;
 using ETıcaretAPI.Application.Enums;
+using ETıcaretAPI.Application.Features.Products.Queries.GetFilter;
 
 namespace ETıcaretAPI.API.Controllers
 {
@@ -76,6 +77,13 @@ namespace ETıcaretAPI.API.Controllers
         {
             GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
             return Ok(response);
+        }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetFilter([FromBody]GetFilterProductQueryRequest getFilterProductQueryRequest)
+        {
+            GetFilterProductQueryResponse response = await _mediator.Send(getFilterProductQueryRequest);
+            return Ok(response);
+
         }
 
         [Authorize(AuthenticationSchemes = "Admin")]

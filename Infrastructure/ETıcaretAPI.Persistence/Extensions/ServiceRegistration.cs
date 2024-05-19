@@ -8,6 +8,7 @@ using ETıcaretAPI.Persistence.Contexts;
 using ETıcaretAPI.Persistence.Repositories;
 using ETıcaretAPI.Persistence.Services;
 using ETıcaretAPI.Persistence.Services.Authentication;
+using ETıcaretAPI.Persistence.Services.AuthorizationEndpoint;
 using ETıcaretAPI.Persistence.Services.Role;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -73,11 +74,21 @@ namespace ETıcaretAPI.Persistence.Extensions
             services.AddScoped<ICompletedOrderReadRepository, CompletedOrderReadRepository>();
             services.AddScoped<ICompletedOrderWriteRepository, CompletedOrderWriteRepository>();
 
+            services.AddScoped<IMenuReadRepository, MenuReadRepository>();
+            services.AddScoped<IMenuWriteRepository, MenuWriteRepository>();
+
+            services.AddScoped<IEndpointReadRepository, EndpointReadRepository>();
+            services.AddScoped<IEndPointWriteRepository, EndpointWriteRepository>();
+
             services.AddScoped<IBasketService, BasketService>();
 
             services.AddScoped<IOrderService, OrderService>();
             
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IAuthorizationEndpointService, AuthorizationEndpointService>();
+
+            services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
+            services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
 
 
 

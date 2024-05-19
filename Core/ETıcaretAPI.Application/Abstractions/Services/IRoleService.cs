@@ -10,6 +10,7 @@ namespace ETıcaretAPI.Application.Abstractions.Services
     public interface IRoleService
     {
         Task<GetRolesDto> GetAllRoles(int page, int size);
+        Task<object> GetAllRolesNoPaginate();
         Task<GetRoleDto> GetRolesByIdAsync(string id);
         Task<bool> CreateRoleAsync(string name);
         Task<bool> DeleteRoleAsync(string id);

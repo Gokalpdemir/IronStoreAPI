@@ -27,7 +27,8 @@ namespace ETıcaretAPI.Application.Features.Products.Commands.Create
             {
                 Name = request.Name,
                 Price = request.Price,
-                Stock = request.Stock
+                Stock = request.Stock,
+                CategoryId=Guid.Parse(request.CategoryId),
             });
             await _productWriterepository.SaveAsync();
             await _productHubService.ProductAddedMessageAsync($"{request.Name} isminde ürün eklendi");

@@ -2,6 +2,7 @@ using EticaretAPI.SignalR.Extension;
 using EticaretAPI.SignalR.Hubs;
 using ETıcaretAPI.API.Configurations.ColumnWriters;
 using ETıcaretAPI.API.Extensions;
+using ETıcaretAPI.API.Filters;
 using ETıcaretAPI.Application.Extension;
 using ETıcaretAPI.Application.Validators.Products;
 using ETıcaretAPI.Infrastructure.Extension;
@@ -31,7 +32,7 @@ namespace ETıcaretAPI.API
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
             builder.Services.AddHttpContextAccessor(); //requestler neticesinde gelen requestlere karşılık oluşan httpContext nesnesine katmanlardaki classlar üzerinden erişebilmemizi sağlayan servisttir.
-            
+
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddAplicationServices();
             builder.Services.AddSignalRServices();
@@ -79,9 +80,14 @@ namespace ETıcaretAPI.API
                 logging.ResponseBodyLogLimit = 4096;
             });
             //serilogEnd
+
             builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
             builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
-            builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ValidationFilter>();
+                options.Filters.Add<RolePermissionFilter>();
+            })
                 .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -101,7 +107,7 @@ namespace ETıcaretAPI.API
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
                         LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow : false,
                         NameClaimType = ClaimTypes.Name,
-                        
+
 
                     };
                 });

@@ -3,6 +3,7 @@ using ETıcaretAPI.Application.Enums;
 using ETıcaretAPI.Application.Features.AppRoles.Commands.Create;
 using ETıcaretAPI.Application.Features.AppRoles.Commands.Delete;
 using ETıcaretAPI.Application.Features.AppRoles.Commands.Update;
+using ETıcaretAPI.Application.Features.AppRoles.Queries.GetAllRoles;
 using ETıcaretAPI.Application.Features.AppRoles.Queries.GetRoleById;
 using ETıcaretAPI.Application.Features.AppRoles.Queries.GetRoles;
 using ETıcaretAPI.Application.Features.Orders.Queries.GetById;
@@ -26,11 +27,20 @@ namespace ETıcaretAPI.API.Controllers
         }
 
         [HttpGet]
-        [AuthorizeDefinition(ActionType = ActionType.Reading, Definition = "Get Roles", Menu = "Roles")]
+        
         public async Task<IActionResult> GetRoles([FromQuery]GetRolesQueryRequest getRolesQueryRequest)
         {
            GetRolesQueryResponse responses = await _mediator.Send(getRolesQueryRequest);
             return Ok(responses);
+        }
+        [HttpGet("[action]")]
+        [AuthorizeDefinition(ActionType = ActionType.Reading, Definition = "Get All Roles Not Paginate", Menu = "Roles")]
+
+        public async Task<IActionResult> GetrolesNotPaginate()
+        {
+            GetAllRolesQueryRequest getAllRolesQueryRequest= new GetAllRolesQueryRequest();
+            GetAllRolesQueryResponse response = await _mediator.Send(getAllRolesQueryRequest);
+            return Ok(response);
         }
 
         [HttpGet("{Id}")]

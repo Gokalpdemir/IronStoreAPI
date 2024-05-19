@@ -68,5 +68,11 @@ namespace ETıcaretAPI.Persistence.Services.Role
             IdentityResult ıdentityResult = await _roleManager.UpdateAsync(new() { Id = id, Name = name });
             return ıdentityResult.Succeeded;
         }
+
+        public async Task<object> GetAllRolesNoPaginate()
+        {
+           var data =  _roleManager.Roles.Select(r=>new  { Id=r.Id,Name=r.Name}).ToList();
+            return data;
+        }
     }
 }
